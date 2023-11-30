@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import eus.birt.dam.domain.Team;
 import eus.birt.dam.repository.TeamRepository;
 
+@CrossOrigin (origins= {"http://localhost:4200"})
 @RestController
 @RequestMapping ("api/teams")
 public class TeamController {
@@ -34,7 +36,7 @@ TeamRepository teamRepository;
 		return teamRepository.findById(id).orElse(null);
 	}
 	
-	@PostMapping("/")
+	@PostMapping({"/",""})
 	@ResponseStatus (HttpStatus.CREATED)
 	public Team create(@RequestBody Team team) {
 		return teamRepository.save(team);
@@ -49,7 +51,7 @@ TeamRepository teamRepository;
 		tempTeam.setCity(team.getCity());
 		tempTeam.setNationality(team.getNationality());
 		tempTeam.setManager(team.getManager());
-		//Al ser un id diferente el método save hace en realidad un update
+		//Al ser un id diferente, el método save hace en realidad un update
 		return teamRepository.save(tempTeam);
 	}
 	
